@@ -17,3 +17,5 @@ Now service will be invoked and returns record as
      message: "Welcome to Choreo!"
    }
 ```
+
+Test Configuration Generation
