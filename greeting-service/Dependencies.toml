@@ -32,7 +32,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "constraint"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -62,7 +62,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "http"
-version = "2.4.6"
+version = "2.4.7"
 dependencies = [
 	{org = "ballerina", name = "auth"},
 	{org = "ballerina", name = "cache"},
@@ -262,7 +262,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "time"
-version = "2.2.3"
+version = "2.2.5"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -270,7 +270,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "url"
-version = "2.2.3"
+version = "2.2.4"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -290,7 +290,7 @@ modules = [
 [[package]]
 org = "choreo"
 name = "greeting_service"
-version = "3.1.0"
+version = "3.1.1"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerinai", name = "observe"}
