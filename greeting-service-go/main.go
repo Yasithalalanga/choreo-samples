@@ -20,6 +20,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
@@ -40,6 +41,7 @@ func main() {
 		Addr:    fmt.Sprintf(":%d", serverPort),
 		Handler: serverMux,
 	}
+
 	go func() {
 		log.Printf("Starting HTTP Greeter on port %d\n", serverPort)
 		if err := server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
@@ -62,10 +64,44 @@ func main() {
 	log.Println("Shutdown complete.")
 }
 
+// EnvVars struct to hold environment variable key-value pairs
+type EnvVars struct {
+	Message       string `json:"message"`
+	DBHost        string `json:"db_host"`
+	DBPort        string `json:"db_port"`
+	DBUsername    string `json:"db_username"`
+	DBPassword    string `json:"db_password"`
+	RedisHost     string `json:"redis_host"`
+	RedisPassword string `json:"redis_password"`
+}
+
 func greet(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
 	if name == "" {
 		name = "Stranger"
 	}
-	fmt.Fprintf(w, "Hello, %s!\n", name)
+
+	message := "Hello, " + name
+
+	// Create an instance of EnvVars and populate it
+	envVars := EnvVars{
+		Message:       message,
+		DBHost:        os.Getenv("DB_HOST"),
+		DBPort:        os.Getenv("DB_PORT"),
+		DBUsername:    os.Getenv("DB_USERNAME"),
+		DBPassword:    os.Getenv("DB_PASSWORD"),
+		RedisHost:     os.Getenv("REDIS_HOST"),
+		RedisPassword: os.Getenv("REDIS_PASSWORD"),
+	}
+
+	// Marshal the struct into JSON
+	jsonData, err := json.Marshal(envVars)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+		return
+	}
+
+	// Write the greeting and JSON response
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
 }
