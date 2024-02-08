@@ -9,7 +9,7 @@ spec:
       port: 9090
       # +required Type of traffic that the endpoint is accepting. For example: REST, GraphQL, etc.
       # Allowed values: REST, GraphQL, GRPC, TCP, UDP.
-      type: REST
+      type: Yello
       # +optional Network level visibility of the endpoint. Defaults to Project
       # Accepted values: Project|Organization|Public.
       networkVisibility: Organization
