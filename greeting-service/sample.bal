@@ -8,13 +8,14 @@ type Greeting record {
 
 configurable string name = "Choreo";
 configurable string message = "Welcome to Choreo!";
+configurable string mountCheck = ?;
 
 // Add a confgiurable to get the configs for a http client
-configurable http:CredentialsConfig clientConfig = ?;
+// configurable http:CredentialsConfig clientConfig = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
-        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!"};
+        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!", "mountCheck" : mountCheck};
         return greetingMessage;
     }
 }
