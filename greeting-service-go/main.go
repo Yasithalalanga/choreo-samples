@@ -68,4 +68,14 @@ func greet(w http.ResponseWriter, r *http.Request) {
 		name = "Stranger"
 	}
 	fmt.Fprintf(w, "Hello, %s!\n", name)
+
+	serviceURL := os.Getenv("SVC_URL")
+	consumerKey := os.Getenv("CONSUMER_KEY")
+	consumerSecret := os.Getenv("CONSUMER_SECRET")
+	tokenUrl := os.Getenv("TOKEN_URL")
+
+	fmt.Fprintf(w, "Service URL: %s\n", serviceURL)
+	fmt.Fprintf(w, "Consumer Key: %s\n", consumerKey)
+	fmt.Fprintf(w, "Consumer Secret: %s\n", consumerSecret)
+	fmt.Fprintf(w, "Token URL: %s\n", tokenUrl)
 }
