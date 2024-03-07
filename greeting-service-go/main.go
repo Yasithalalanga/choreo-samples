@@ -28,6 +28,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 func main() {
@@ -68,4 +70,52 @@ func greet(w http.ResponseWriter, r *http.Request) {
 		name = "Stranger"
 	}
 	fmt.Fprintf(w, "Hello, %s!\n", name)
+
+	// Get all the environment variables
+	tokenUrl := os.Getenv("TOKEN_URL")
+	serviceUrl := os.Getenv("SERVICE_URL")
+	consumerKey := os.Getenv("CONSUMER_KEY")
+	consumerSecret := os.Getenv("CONSUMER_SECRET")
+
+	fmt.Printf("All the connection details: %s, %s, %s, %s\n", tokenUrl, serviceUrl, consumerKey, consumerSecret)
+
+	// Get token calling the token endpoint
+	config := &clientcredentials.Config{
+		ClientID:     consumerKey,
+		ClientSecret: consumerSecret,
+		TokenURL:     tokenUrl,
+	}
+
+	token, err := config.Token(context.Background())
+	if err != nil {
+		fmt.Printf("Error getting token: %v\n", err)
+		return
+	}
+
+	accessToken := token.AccessToken
+	fmt.Printf("Access Token: %s\n", accessToken)
+
+	// Append endpoint path to the service URL
+	serviceUrl = serviceUrl + "/greeter/greet"
+
+	// Call the service endpoint
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", serviceUrl, nil)
+	if err != nil {
+		fmt.Printf("Error creating request: %v\n", err)
+		return
+	}
+
+	req.Header = map[string][]string{
+		"Authorization": {fmt.Sprintf("Bearer %s", accessToken)},
+	}
+
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Printf("Error calling service: %v\n", err)
+		return
+	}
+
+	defer resp.Body.Close()
+	fmt.Printf("Response from service: %v\n", resp)
 }
