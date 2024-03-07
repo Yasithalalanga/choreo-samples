@@ -9,10 +9,11 @@ type Greeting record {
 
 configurable string baseUrl = ?;
 configurable string containerId = ?;
+configurable string nameInput = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
-        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!" , "configurations" : "baseUrl: " + baseUrl + ", containerId: " + containerId};
+        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!" , "configurations" : "baseUrl: " + baseUrl + ", containerId: " + containerId + " " + nameInput};
         return greetingMessage;
     }
 }
