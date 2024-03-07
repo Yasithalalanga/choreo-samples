@@ -118,4 +118,17 @@ func greet(w http.ResponseWriter, r *http.Request) {
 
 	defer resp.Body.Close()
 	fmt.Printf("Response from service: %v\n", resp)
+
+	// Print only data from the response
+	buf := make([]byte, 1024)
+	for {
+		n, err := resp.Body.Read(buf)
+		if n > 0 {
+			fmt.Printf("%s", buf[:n])
+		}
+		if err != nil {
+			break
+		}
+	}
+
 }
