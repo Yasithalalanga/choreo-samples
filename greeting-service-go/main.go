@@ -84,7 +84,7 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	client := clientCredsConfig.Client(context.Background())
 
 	//sample go code snippet
-	response, err := client.Get(serviceUrl)
+	response, err := client.Get(serviceUrl + "?name=hello")
 	if err != nil {
 		log.Printf("Error occurred while calling the service: %v", err)
 		http.Error(w, "Error occurred while calling the service", http.StatusInternalServerError)
