@@ -67,5 +67,11 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	if name == "" {
 		name = "Stranger"
 	}
-	fmt.Fprintf(w, "Hello, %s!\n", name)
+
+	tokenUrl := os.Getenv("TOKEN_URL")
+	serviceUrl := os.Getenv("SERVICE_URL")
+	consumerKey := os.Getenv("CONSUMER_KEY")
+	consumerSecret := os.Getenv("CONSUMER_SECRET")
+
+	fmt.Fprintf(w, "Hello, %s! Your service URL is %s, consumer key is %s, consumer secret is %s and token URL is %s\n", name, serviceUrl, consumerKey, consumerSecret, tokenUrl)
 }
