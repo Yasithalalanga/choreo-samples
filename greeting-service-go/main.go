@@ -93,5 +93,5 @@ func greet(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprintf(w, "Your service URL is %s, consumer key is %s, consumer secret is %s and token URL is %s\n", name, serviceUrl, consumerKey, consumerSecret, tokenUrl)
 	fmt.Fprintf(w, "Hello, %s!\n", name)
-	fmt.Fprintf(w, "Response from the service: %s\n", response)
+	fmt.Fprintf(w, "Response from the service: %s\n", response.Body)
 }
