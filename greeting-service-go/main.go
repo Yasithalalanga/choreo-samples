@@ -28,6 +28,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 func main() {
@@ -73,5 +75,23 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	consumerKey := os.Getenv("CONSUMER_KEY")
 	consumerSecret := os.Getenv("CONSUMER_SECRET")
 
-	fmt.Fprintf(w, "Hello, %s! Your service URL is %s, consumer key is %s, consumer secret is %s and token URL is %s\n", name, serviceUrl, consumerKey, consumerSecret, tokenUrl)
+	// clientId, clientSecret and tokenUrl represent variables to which respective environment variables were read
+	var clientCredsConfig = clientcredentials.Config{
+		ClientID:     consumerKey,
+		ClientSecret: consumerSecret,
+		TokenURL:     tokenUrl,
+	}
+	client := clientCredsConfig.Client(context.Background())
+
+	//sample go code snippet
+	response, err := client.Get(serviceUrl)
+	if err != nil {
+		log.Printf("Error occurred while calling the service: %v", err)
+		http.Error(w, "Error occurred while calling the service", http.StatusInternalServerError)
+		return
+	}
+
+	fmt.Fprintf(w, "Your service URL is %s, consumer key is %s, consumer secret is %s and token URL is %s\n", name, serviceUrl, consumerKey, consumerSecret, tokenUrl)
+	fmt.Fprintf(w, "Hello, %s!\n", name)
+	fmt.Fprintf(w, "Response from the service: %s\n", response)
 }
