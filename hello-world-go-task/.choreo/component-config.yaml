@@ -3,8 +3,15 @@ kind: ComponentConfig
 spec:
   outbound:
     serviceReferences:
-      - name: choreo:///binoydev/yasitha-project/ckddjo/8b1c3/v1.0/PUBLIC
-        connectionConfig: 01eef0ab-1193-13d6-bb2f-4cafb2095383
-        env:
-          - from: ServiceURL
-            to: SVC_URL
+    - name: choreo:///binoydev/yasitha-project/tyfagy/8b1c3/v1/PUBLIC
+      connectionConfig: 01eef6ec-876f-1580-99d7-fb082a8545d3
+      env:
+      - from: ServiceURL
+        to: SVC_URL
+      - from: ConsumerKey
+        to: CONSUMER_KEY
+      - from: ConsumerSecret
+        to: CONSUMER_SECRET
+      - from: TokenURL
+        to: TOKEN_URL
+
