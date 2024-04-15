@@ -18,6 +18,18 @@ function App() {
     console.log('consumerSecret', consumerSecret);
     console.log('tokenURL', tokenURL);
 
+    // Read envriorment variables
+    const envServiceURL = process.env.REACT_APP_SERVICE_URL || "/";
+    const envConsumerKey = process.env.REACT_APP_CONSUMER_KEY || "";
+    const envConsumerSecret = process.env.REACT_APP_CONSUMER_SECRET || "";
+    const envTokenURL = process.env.REACT_APP_TOKEN_URL || "";
+
+    console.log('envServiceURL', envServiceURL);
+    console.log('envConsumerKey', envConsumerKey);
+    console.log('envConsumerSecret', envConsumerSecret);
+    console.log('envTokenURL', envTokenURL);
+
+
     const getClientCredentials = oauth.clientCredentials(
       axios.create(),
       tokenURL,

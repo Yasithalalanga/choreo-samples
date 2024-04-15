@@ -1,0 +1,18 @@
+apiVersion: core.choreo.dev/v1beta1
+kind: ComponentConfig
+spec:
+  outbound:
+    serviceReferences:
+    - name: choreo:///binoydev/yasitha-project/tyfagy/8b1c3/v1/PUBLIC
+      connectionConfig: 01eef6ec-876f-1580-99d7-fb082a8545d3
+      env:
+      - from: ServiceURL
+        to: REACT_APP_SERVICE_URL
+      - from: ConsumerKey
+        to: REACT_APP_CONSUMER_KEY
+      - from: ConsumerSecret
+        to: REACT_APP_CONSUMER_SECRET
+      - from: TokenURL
+        to: REACT_APP_TOKEN_URL
+
+
