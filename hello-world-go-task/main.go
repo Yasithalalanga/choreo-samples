@@ -49,8 +49,10 @@ func main() {
 		return
 	}
 
+	fmt.Println("This is connection call from manual task")
+
 	// Convert the body to string and print
-	fmt.Println("Response from the service: %s\n", string(body))
+	fmt.Printf("Response from the service: %s\n", string(body))
 
 	for i, arg := range os.Args[1:] {
 		fmt.Println("Arg", i, ": ", arg)

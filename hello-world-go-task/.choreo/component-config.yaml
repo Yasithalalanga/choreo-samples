@@ -4,7 +4,7 @@ spec:
   outbound:
     serviceReferences:
     - name: choreo:///binoydev/yasitha-project/tyfagy/8b1c3/v1/PUBLIC
-      connectionConfig: 01eefaf0-f1bf-138e-a163-6635515f1ce1
+      connectionConfig: 01eefaf3-16b4-1ab6-8570-438426cb09ce
       env:
       - from: ServiceURL
         to: SVC_URL
