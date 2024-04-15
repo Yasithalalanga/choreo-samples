@@ -1,40 +1,49 @@
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
-import oauth from 'axios-oauth-client'
 import axios from 'axios';
+import oauth from 'axios-oauth-client';
 
-async function App() {
-  const serviceURL = window?.configs?.serviceURL ? window.configs.serviceURL : "/";
-  const consumerKey = window?.configs?.consumerKey ? window.configs.consumerKey : "";
-  const consumerSecret = window?.configs?.consumerSecret ? window.configs.consumerSecret : "";
-  const tokenURL = window?.configs?.tokenURL ? window.configs.tokenURL : "";
+function App() {
+  const [response, setResponse] = React.useState(null);
 
-  console.log('serviceURL', serviceURL);
-  console.log('consumerKey', consumerKey);
-  console.log('consumerSecret', consumerSecret);
-  console.log('tokenURL', tokenURL);
+  const fetchData = async () => {
+    const serviceURL = window?.configs?.serviceURL || "/";
+    const consumerKey = window?.configs?.consumerKey || "";
+    const consumerSecret = window?.configs?.consumerSecret || "";
+    const tokenURL = window?.configs?.tokenURL || "";
 
-  const getClientCredentials = oauth.clientCredentials(
-    axios.create(),
-    tokenURL,
-   consumerKey,
-    consumerSecret
-  );
-  const auth = await getClientCredentials();
-  const accessToken = auth.access_token;
+    console.log('serviceURL', serviceURL);
+    console.log('consumerKey', consumerKey);
+    console.log('consumerSecret', consumerSecret);
+    console.log('tokenURL', tokenURL);
 
-  console.log('accessToken', accessToken);
+    const getClientCredentials = oauth.clientCredentials(
+      axios.create(),
+      tokenURL,
+      consumerKey,
+      consumerSecret
+    );
 
-  let resourcePath = '?name=hello';
-  const response = await axios.get(serviceURL + resourcePath, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
+    try {
+      const auth = await getClientCredentials();
+      const accessToken = auth.access_token;
+      console.log('accessToken', accessToken);
+
+      let resourcePath = '?name=hello';
+      const apiResponse = await axios.get(serviceURL + resourcePath, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      setResponse(apiResponse.data);
+      console.log('response', apiResponse.data);
+    } catch (error) {
+      console.error('API call failed:', error);
+      setResponse({ error: 'API call failed. Check the console for more information.' });
     }
-  });
-
-  console.log('response', response);
-
+  };
 
   return (
     <div className="App">
@@ -43,11 +52,15 @@ async function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <button onClick={fetchData} className="App-link">
+          Fetch Data
+        </button>
+        {response && <pre>{JSON.stringify(response, null, 2)}</pre>}
         <a
-          className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
+          className="App-link"
         >
           Learn React
         </a>
