@@ -20,8 +20,8 @@ spec:
       schemaFilePath: openapi.yaml
   outbound:
     serviceReferences:
-    - name: choreo:///binoydev/yasitha-project/tyfagy/8b1c3/v1.0/PUBLIC
-      connectionConfig: 01eef58e-e7e8-1830-8017-440f07426c20
+    - name: choreo:///binoydev/yasitha-project/tyfagy/8b1c3/v1/PUBLIC
+      connectionConfig: 01eefbd9-77b6-1ae8-bb87-105deed50d09
       env:
       - from: ServiceURL
         to: SERVICE_URL

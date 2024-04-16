@@ -105,5 +105,9 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	// Convert the body to string and print
 	fmt.Fprintf(w, "Response from the service: %s\n", string(body))
 
-	fmt.Fprintf(w, "Your service URL is %s, consumer key is %s, consumer secret is %s and token URL is %s\n", name, serviceUrl, consumerKey, consumerSecret, tokenUrl)
+	fmt.Fprintf(w, "Hello, %s!\n", name)
+
+	fmt.Println("This is connection call from webhook service")
+
+	fmt.Fprintf(w, "Your service URL is %s, consumer key is %s, consumer secret is %s and token URL is %s\n", serviceUrl, consumerKey, consumerSecret, tokenUrl)
 }
