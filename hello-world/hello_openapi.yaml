@@ -1,0 +1,23 @@
+openapi: 3.0.1
+info:
+  title: Hello
+  version: 3.1.1
+servers:
+- url: "{server}:{port}/hello"
+  variables:
+    server:
+      default: http://localhost
+    port:
+      default: "8090"
+paths:
+  /greeting:
+    get:
+      operationId: getGreeting
+      responses:
+        "200":
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                type: string
+components: {}
