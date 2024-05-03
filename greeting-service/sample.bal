@@ -1,4 +1,5 @@
 import ballerina/http;
+import ballerinax/mysql;
 
 type Greeting record {
     string 'from;
@@ -16,13 +17,14 @@ configurable float testFloat = 10.5;
 configurable decimal testDecimal = ?;
 configurable string testString = ?;
 
+configurable mysql:Options mysqlOptions = ?;
 
 // Add a confgiurable to get the configs for a http client
 // configurable http:CredentialsConfig clientConfig = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
-        Greeting greetingMessage = {"from" : name, "to" : name, "message" : message, "mountCheck" : mountCheck, "testNumber" : testNumber, "testBoolean" : isEnabled, "testFloat" : testFloat, "testDecimal" : testDecimal, "testString" : testString};
+        Greeting greetingMessage = {"from" : name, "to" : name, "message" : message, "mountCheck" : mountCheck, "testNumber" : testNumber, "testBoolean" : isEnabled, "testFloat" : testFloat, "testDecimal" : testDecimal, "testString" : testString, "mysqlOptions" : mysqlOptions};
         return greetingMessage;
     }
 }
