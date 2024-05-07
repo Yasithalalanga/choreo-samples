@@ -7,13 +7,13 @@ type Greeting record {
     string message;
 };
 
-configurable  string[] username = ?;
+configurable  string[] username02 = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
-        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!", "username": username.toString()};
+        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!", "username": username02.toString()};
         // Iterate and print the username
-        foreach var user in username {
+        foreach var user in username02 {
             io:println("Username: " + user);
         }
         return greetingMessage;
