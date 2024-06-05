@@ -15,8 +15,8 @@ endpoints:
     # +optional Network level visibilities of the endpoint.
     # Takes priority over networkVisibility if defined.
     # Accepted values: Project|Organization|Public(Default).
-    networkVisibilities:
-      - Organization
+    # networkVisibilities:
+    #   - Organization
     # +optional Context (base path) of the API that gets exposed via the endpoint.
     # This is mandatory if the endpoint type is set to REST or GraphQL.
     context: /
