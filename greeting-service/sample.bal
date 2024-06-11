@@ -1,14 +1,26 @@
+import ballerina/io;
 import ballerina/http;
 
-type Greeting record {
-    string 'from;
-    string to;
-    string message;
+type Tag record {
+    string name;
+    string description;
 };
+
+type Greeting record {
+    string name;
+    string message;
+    Tag[] tags;
+};
+
+configurable Greeting[] greetings = [
+    {"name" : "Alice", "message" : "Hello Alice!", "tags" : [{"name" : "greeting", "description" : "Greeting message"}]},
+    {"name" : "Bob", "message" : "Hello Bob!", "tags" : [{"name" : "greeting", "description" : "Greeting message"}]}
+];
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
-        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!"};
-        return greetingMessage;
+        io:println("Received request for " + name);
+        io:print("Greetings in array: ", greetings);
+        return greetings[0];
     }
 }
