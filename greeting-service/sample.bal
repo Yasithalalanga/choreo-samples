@@ -9,10 +9,23 @@ type Greeting record {
 
 type Calc record {|
     decimal amount;
+    Dates day;
 |};
+
+// Dates Enum
+public enum Dates {
+    SUNDAY = "Sunday",
+    MONDAY = "Monday",
+    TUESDAY = "Tuesday",
+    WEDNESDAY = "Wednesday",
+    THURSDAY = "Thursday",
+    FRIDAY = "Friday",
+    SATURDAY = "Saturday"
+}
 
 configurable decimal amount = ?;
 configurable Calc Calculation = ?;
+configurable Dates day = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
@@ -22,6 +35,11 @@ service / on new http:Listener(8090) {
 
         io:println("Object Calc: " + Calculation.amount.toBalString());
         io:println(Calculation.amount);
+        io:println("Object Calc: " + Calculation.day.toString());
+        io:println(Calculation.day);
+
+        io:println("Enum Day: " + day.toString());
+        io:println(day);
         return greetingMessage;
     }
 }
