@@ -1,5 +1,5 @@
 [package]
-org = "choreo"
+org = "yasithaOrg"
 name = "greeting_service"
 distribution = "2201.9.2"
 version = "3.1.1"
