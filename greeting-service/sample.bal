@@ -14,8 +14,20 @@ enum Country {
   US = "United States"
 }
 configurable Country country = ?;
-
 configurable float|int|string measurement = ?;
+
+type Greeter record {|
+    string name;
+    string message;
+|};
+
+// Defaultable fields
+configurable string defaultName = "John Doe";
+configurable string defaultMessage = "Hello, World!";
+
+configurable Greeter greeter = ?;
+configurable string[] hobbies = ?;
+configurable int[] grades = ?;
 
 service / on new http:Listener(8090) {
     resource function get greeting() returns string {
@@ -37,6 +49,17 @@ service / on new http:Listener(8090) {
 
         greetingMessage = greetingMessage + " Country: " + country.toString();
         greetingMessage = greetingMessage + " Measurement: " + measurement.toBalString();
+
+        greetingMessage = greetingMessage + "Greeter Name: " + greeter.name;
+        greetingMessage = greetingMessage + "Greeter Message: " + greeter.message;
+
+        // Append the defaultable values with keys
+        greetingMessage = greetingMessage + " Default Name: " + defaultName;
+        greetingMessage = greetingMessage + " Default Message: " + defaultMessage;
+
+        // Append the array values with keys
+        greetingMessage = greetingMessage + " Hobbies: " + hobbies.toString();
+        greetingMessage = greetingMessage + " Grades: " + grades.toString();
 
         return greetingMessage;
     }
