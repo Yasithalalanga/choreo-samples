@@ -29,6 +29,15 @@ configurable Greeter greeter = ?;
 configurable string[] hobbies = ?;
 configurable int[] grades = ?;
 
+// Nested Objects
+
+type Event record {|
+    Greeter greeter;
+    string eventName;
+|};
+
+configurable Event event = ?;
+
 service / on new http:Listener(8090) {
     resource function get greeting() returns string {
         string greetingMessage = "Hello, World!";
@@ -60,6 +69,11 @@ service / on new http:Listener(8090) {
         // Append the array values with keys
         greetingMessage = greetingMessage + " Hobbies: " + hobbies.toString();
         greetingMessage = greetingMessage + " Grades: " + grades.toString();
+
+        // Append the nested object values with keys
+        greetingMessage = greetingMessage + " Event Name: " + event.eventName;
+        greetingMessage = greetingMessage + " Event Greeter Name: " + event.greeter.name;
+        greetingMessage = greetingMessage + " Event Greeter Message: " + event.greeter.message;
 
         return greetingMessage;
     }
