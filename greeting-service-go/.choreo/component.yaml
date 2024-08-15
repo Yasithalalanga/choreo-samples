@@ -8,7 +8,12 @@ endpoints:
     # +optional Endpoint display name
     displayName: Go Greeter Endpoint One
     # +required Numeric port value that gets exposed via the endpoint
-    port: 9090
+    service:
+      # +optional Base path of the API that gets exposed via the endpoint.
+      # This is mandatory if the endpoint type is set to REST or GraphQL.
+      basePath: /greeting-service
+      # +required
+      port: 9090
     # +required Type of traffic that the endpoint is accepting. For example: REST, GraphQL, etc.
     # Allowed values: REST, GraphQL, GRPC, TCP, UDP.
     type: REST
@@ -17,9 +22,6 @@ endpoints:
     # Accepted values: Project|Organization|Public(Default).
     # networkVisibilities:
     #   - Organization
-    # +optional Context (base path) of the API that gets exposed via the endpoint.
-    # This is mandatory if the endpoint type is set to REST or GraphQL.
-    context: /
     # +optional Path to the schema definition file. Defaults to wild card route if not provided
     # This is only applicable to REST endpoint types.
     # The path should be relative to the docker context.
