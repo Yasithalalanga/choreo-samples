@@ -31,41 +31,58 @@ import (
 )
 
 func main() {
+	// Create two servers with different ports and handlers
+	startServer(9090)
+	startServer(9095)
 
-	serverMux := http.NewServeMux()
-	serverMux.HandleFunc("/greeter/greet", greet)
-
-	serverPort := 9090
-	server := http.Server{
-		Addr:    fmt.Sprintf(":%d", serverPort),
-		Handler: serverMux,
-	}
-	go func() {
-		log.Printf("Starting HTTP Greeter on port %d\n", serverPort)
-		if err := server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
-			log.Fatalf("HTTP ListenAndServe error: %v", err)
-		}
-		log.Println("HTTP server stopped serving new requests.")
-	}()
-
+	// Wait for shutdown signal
 	stopCh := make(chan os.Signal, 1)
 	signal.Notify(stopCh, syscall.SIGINT, syscall.SIGTERM)
-	<-stopCh // Wait for shutdown signal
+	<-stopCh
 
+	// Shutdown both servers
+	log.Println("Shutting down servers...")
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-
-	log.Println("Shutting down the server...")
-	if err := server.Shutdown(shutdownCtx); err != nil {
-		log.Fatalf("HTTP shutdown error: %v", err)
-	}
+	shutdownServer(shutdownCtx, 9090)
+	shutdownServer(shutdownCtx, 9095)
 	log.Println("Shutdown complete.")
 }
 
-func greet(w http.ResponseWriter, r *http.Request) {
+func startServer(port int) {
+	serverMux := http.NewServeMux()
+	serverMux.HandleFunc("/greeter/greet", func(w http.ResponseWriter, r *http.Request) {
+		greet(w, r, port)
+	})
+
+	server := http.Server{
+		Addr:    fmt.Sprintf(":%d", port),
+		Handler: serverMux,
+	}
+
+	go func() {
+		log.Printf("Starting HTTP Greeter on port %d\n", port)
+		if err := server.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
+			log.Fatalf("HTTP ListenAndServe error on port %d: %v", port, err)
+		}
+		log.Printf("HTTP server on port %d stopped serving new requests.\n", port)
+	}()
+}
+
+func shutdownServer(ctx context.Context, port int) {
+	server := &http.Server{
+		Addr: fmt.Sprintf(":%d", port),
+	}
+	if err := server.Shutdown(ctx); err != nil {
+		log.Fatalf("HTTP shutdown error on port %d: %v", port, err)
+	}
+	log.Printf("Server on port %d shut down successfully.\n", port)
+}
+
+func greet(w http.ResponseWriter, r *http.Request, port int) {
 	name := r.URL.Query().Get("name")
 	if name == "" {
 		name = "Stranger"
 	}
-	fmt.Fprintf(w, "Hello, %s!\n", name)
+	fmt.Fprintf(w, "Hello, %s! You are connected to port %d.\n", name, port)
 }
