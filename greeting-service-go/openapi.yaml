@@ -25,7 +25,3 @@ paths:
               schema:
                 type: string
                 example: Hello, Stranger! You are connected to port 9090.
-
-servers:
-  - url: http://localhost:9090
-  - url: http://localhost:9095
