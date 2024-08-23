@@ -15,9 +15,9 @@
 
 import ballerina/io;
 
-configurable string name = ?;
-configurable string brand = ?;
-configurable string message = ?;
+configurable string name = "World";
+configurable string brand = "Choreo";
+configurable string message = "Welcome to Choreo!";
 
 public function main() {
     io:println("Hello, World!");
