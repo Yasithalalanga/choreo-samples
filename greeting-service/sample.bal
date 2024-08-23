@@ -15,13 +15,12 @@
 
 import ballerina/io;
 
-configurable string name = ?;
-configurable string brand = ?;
-configurable string message = ?;
+configurable string name = "Hello, World!";
+configurable string brand = "Choreo";
+configurable string message = "Welcome to Choreo!";
 
 public function main() {
     io:println("Hello, World!");
-    io:println("From: " + brand);
-    io:println("To: " + name);
-    io:println("Message: " + message);
+    io:println("Welcome to Choreo!");
+    io:println("Hello, " + name + "!");
 }
