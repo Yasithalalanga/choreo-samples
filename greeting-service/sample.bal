@@ -15,6 +15,13 @@
 
 import ballerina/io;
 
+configurable string name = ?;
+configurable string brand = ?;
+configurable string message = ?;
+
 public function main() {
     io:println("Hello, World!");
+    io:println("From: " + brand);
+    io:println("To: " + name);
+    io:println("Message: " + message);
 }
