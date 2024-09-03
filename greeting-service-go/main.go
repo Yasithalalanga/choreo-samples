@@ -32,8 +32,8 @@ import (
 
 func main() {
 	// Create two servers with different ports and handlers
-	startServer(9090)
-	startServer(9095)
+	startServer(9091)
+	startServer(9092)
 
 	// Wait for shutdown signal
 	stopCh := make(chan os.Signal, 1)
@@ -44,8 +44,8 @@ func main() {
 	log.Println("Shutting down servers...")
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	shutdownServer(shutdownCtx, 9090)
-	shutdownServer(shutdownCtx, 9095)
+	shutdownServer(shutdownCtx, 9091)
+	shutdownServer(shutdownCtx, 9092)
 	log.Println("Shutdown complete.")
 }
 
