@@ -17,7 +17,22 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+      deprecated: false
+      security: []
+  /greeter/sample:
+    get:
+      summary: Greet a Sample
+      description: Greet a person sample
+      tags:
+        - greeting
+      responses:
+        "200":
           description: Successful response
           content:
             text/plain:
