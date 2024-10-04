@@ -22,6 +22,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -92,11 +93,21 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	client := clientCredsConfig.Client(context.Background())
 
 	// Invoke the service using the access token
-	ServiceUrl = ServiceUrl + "//greeter/greet?name=Yasitha"
+	ServiceUrl = ServiceUrl + "/greeter/greet?name=Yasitha"
 	resp, err := client.Get(ServiceUrl)
 	if err != nil {
 		log.Fatalf("Error invoking service: %v", err)
 	}
 	defer resp.Body.Close()
-	log.Printf("Service response: %v", resp)
+	log.Printf("Service response: %v", resp.Body)
+
+	// Convert the response to a string and print it
+	// Read the entire response body at once
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalf("Error reading response: %v", err)
+	}
+
+	// Convert the response to a string and print it
+	log.Printf("Service response: %s", string(body))
 }
