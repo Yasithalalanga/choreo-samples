@@ -77,6 +77,11 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	consumerSecret := os.Getenv("CONSUMER_SECRET")
 	ServiceUrl := os.Getenv("SERVICE_URL")
 
+	fmt.Println("tokenUrl: ", tokenUrl)
+	fmt.Println("consumerKey: ", consumerKey)
+	fmt.Println("consumerSecret: ", consumerSecret)
+	fmt.Println("ServiceUrl: ", ServiceUrl)
+
 	// Get access toke using the token url, consumer key and consumer secret
 	// clientId, clientSecret and tokenUrl represent variables to which respective environment variables were read
 	var clientCredsConfig = clientcredentials.Config{
@@ -87,6 +92,7 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	client := clientCredsConfig.Client(context.Background())
 
 	// Invoke the service using the access token
+	ServiceUrl = ServiceUrl + "//greeter/greet?name=Yasitha"
 	resp, err := client.Get(ServiceUrl)
 	if err != nil {
 		log.Fatalf("Error invoking service: %v", err)
