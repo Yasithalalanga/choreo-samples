@@ -3,7 +3,7 @@ import ballerina/io;
 
 
 configurable string[] requiredNames = ?;
-configurable string[] optionalNames = [];
+configurable string[] optionalNames = ["Choreo", "Ballerina"];
 configurable Greeting[] greetings = [];
 
 type Greeting record {
