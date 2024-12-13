@@ -6,6 +6,18 @@ configurable string[] requiredNames = ?;
 configurable string[] optionalNames = ["Choreo", "Ballerina"];
 configurable Greeting[] greetings = [];
 
+type RetryConfig record {|
+    *http:RetryConfig;
+|};
+
+configurable RetryConfig testRetryConfig = ?;
+
+http:Client testClient = check new ("testUrl", {
+    retryConfig: {
+        ...testRetryConfig
+    }
+});
+
 type Greeting record {
     string 'from;
     string to;
