@@ -13,14 +13,14 @@ type ClientSiteConfig record {
 };
 
 // Get configurations from config file or environment variables
-configurable ClientSiteConfig clientsiteConfig = ?;
+configurable ClientSiteConfig clientSiteConfig = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
         Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!"};
         // Just print the values from mobileapp_api
-        io:println("Client URL: " + clientsiteConfig.clientUrl);
-        io:println("Cert Path: " + clientsiteConfig.certPath);
+        io:println("Client URL: " + clientSiteConfig.clientUrl);
+        io:println("Cert Path: " + clientSiteConfig.certPath);
         return greetingMessage;
     }
 }
