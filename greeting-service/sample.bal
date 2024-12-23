@@ -7,13 +7,13 @@ type Greeting record {
     string message;
 };
 
-type ClientsiteConfig record {
+type ClientSiteConfig record {
     string clientUrl;
     string certPath;
 };
 
 // Get configurations from config file or environment variables
-configurable ClientsiteConfig clientsiteConfig = ?;
+configurable ClientSiteConfig clientsiteConfig = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
