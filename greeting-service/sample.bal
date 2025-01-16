@@ -14,6 +14,7 @@ type ClientSiteConfig record {
 
 // Get configurations from config file or environment variables
 configurable ClientSiteConfig clientSiteConfig = ?;
+configurable string commonName = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
@@ -21,6 +22,7 @@ service / on new http:Listener(8090) {
         // Just print the values from mobileapp_api
         io:println("Client URL: " + clientSiteConfig.clientUrl);
         io:println("Cert Path: " + clientSiteConfig.certPath);
+        io:println("Common Name: " + commonName);
         return greetingMessage;
     }
 }
