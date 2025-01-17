@@ -13,8 +13,11 @@ type ClientSiteConfig record {
 };
 
 // Get configurations from config file or environment variables
-configurable ClientSiteConfig clientSiteConfig = ?;
-configurable string commonName = ?;
+configurable ClientSiteConfig clientSiteConfig = {
+    clientUrl: "https://mobileapp.sample.com",
+    certPath: "/home/user/certs/sample.pem"
+};
+configurable string commonName = "sample.com";
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
