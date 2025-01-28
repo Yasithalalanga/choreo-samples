@@ -36,6 +36,11 @@ func main() {
 	caCertFilePath := config.GetEnv("CA_CERT_FILE_PATH", "ca.crt")
 	greeterServerUrl := config.GetEnv("GREETER_SERVER_URL", "https://localhost:8443/greeter")
 
+	fmt.Println("certFilePath: ", certFilePath)
+	fmt.Println("keyFilePath: ", keyFilePath)
+	fmt.Println("caCertFilePath: ", caCertFilePath)
+	fmt.Println("greeterServerUrl: ", greeterServerUrl)
+
 	// Load the client certificate and private key
 	clientKeyPair, err := certs.LoadKeyPair(certFilePath, keyFilePath)
 	if err != nil {

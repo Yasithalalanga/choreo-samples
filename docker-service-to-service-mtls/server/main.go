@@ -40,16 +40,25 @@ func main() {
 	keyFilePath := config.GetEnv("KEY_FILE_PATH", "server.key")
 	caCertFilePath := config.GetEnv("CA_CERT_FILE_PATH", "ca.crt")
 
+	fmt.Println("certFilePath: ", certFilePath)
+	fmt.Println("keyFilePath: ", keyFilePath)
+	fmt.Println("caCertFilePath: ", caCertFilePath)
+
 	// Load the server certificate and private key
 	serverKeyPair, err := certs.LoadKeyPair(certFilePath, keyFilePath)
 	if err != nil {
 		log.Fatalf("Error loading key pair: %v", err)
 	}
+
+	fmt.Println("serverKeyPair: ", serverKeyPair)
+
 	// Load the CA certificate
 	caCertPool, err := certs.LoadCACertPool(caCertFilePath)
 	if err != nil {
 		log.Fatalf("Error loading CA cert pool: %v", err)
 	}
+
+	fmt.Println("caCertPool: ", caCertPool)
 
 	// Create a TLS configuration with mutual authentication
 	tlsConfig := &tls.Config{
