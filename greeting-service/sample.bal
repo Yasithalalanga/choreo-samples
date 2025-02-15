@@ -18,6 +18,7 @@ configurable ClientSiteConfig clientSiteConfig = {
     certPath: "/home/user/certs/sample.pem"
 };
 configurable string commonName = "sample.com";
+configurable int port = ?;
 
 service / on new http:Listener(8090) {
     resource function get .(string name) returns Greeting {
@@ -26,6 +27,7 @@ service / on new http:Listener(8090) {
         io:println("Client URL: " + clientSiteConfig.clientUrl);
         io:println("Cert Path: " + clientSiteConfig.certPath);
         io:println("Common Name: " + commonName);
+        io:println("Port: " + port.toBalString());
         return greetingMessage;
     }
 }
