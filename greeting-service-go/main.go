@@ -1,21 +1,3 @@
-/*
- * Copyright (c) 2023, WSO2 LLC. (https://www.wso2.com/) All Rights Reserved.
- *
- * WSO2 LLC. licenses this file to you under the Apache License,
- * Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 package main
 
 import (
@@ -31,6 +13,8 @@ import (
 )
 
 func main() {
+	log.Println("Initializing service and loading configurations...")
+	loadConfigurations()
 
 	serverMux := http.NewServeMux()
 	serverMux.HandleFunc("/greeter/greet", greet)
@@ -62,84 +46,49 @@ func main() {
 	log.Println("Shutdown complete.")
 }
 
+func loadConfigurations() {
+	// Read environment variables
+	log.Println("Loaded Environment Variables:")
+	log.Printf("CURRENCY: %s", os.Getenv("CURRENCY"))
+	log.Printf("STRIPE_API_URL: %s", os.Getenv("STRIPE_API_URL"))
+	log.Printf("STRIPE_SECRET_KEY: %s", os.Getenv("STRIPE_SECRET_KEY"))
+
+	// Read from files
+	log.Println("\nReading Configuration Files:")
+	readAndPrintFile("config.json")
+	readAndPrintFile("cert.pem")
+
+	// Redis Sample
+	if os.Getenv("REDIS_ENABLED") == "true" {
+		log.Println("\nRedis is enabled. Loading Redis configurations...")
+		log.Printf("Redis Host: %s", os.Getenv("REDIS_HOST"))
+		log.Printf("Redis Port: %s", os.Getenv("REDIS_PORT"))
+		readAndPrintFile("etc/redis/redis.conf")
+	}
+}
+
+func readAndPrintFile(filename string) {
+	file, err := os.Open(filename)
+	if err != nil {
+		log.Printf("Error reading %s: %v", filename, err)
+		return
+	}
+	defer file.Close()
+
+	buf := make([]byte, 1024)
+	n, err := file.Read(buf)
+	if err != nil {
+		log.Printf("Error reading %s: %v", filename, err)
+		return
+	}
+
+	log.Printf("Contents of %s:\n%s\n", filename, string(buf[:n]))
+}
+
 func greet(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Query().Get("name")
 	if name == "" {
 		name = "Stranger"
 	}
 	fmt.Fprintf(w, "Hello, %s!\n", name)
-
-	// Read environment variables
-	currency := os.Getenv("CURRENCY")
-	apiURL := os.Getenv("STRIPE_API_URL")
-	secretKey := os.Getenv("STRIPE_SECRET_KEY")
-
-	fmt.Fprintln(w, "\n\nRead as Environment variables:")
-	fmt.Fprintln(w, "Currency:", currency)
-	fmt.Fprintln(w, "Stripe API URL:", apiURL)
-	fmt.Fprintln(w, "Stripe Secret Key:", secretKey)
-
-	// Read from files
-	fmt.Fprintln(w, "\n\nRead from files:")
-	configFile, err := os.Open("config.json")
-	if err != nil {
-		fmt.Fprintln(w, "Error reading config file: ", err)
-		return
-	}
-	defer configFile.Close()
-
-	buf := make([]byte, 1024)
-	n, err := configFile.Read(buf)
-	if err != nil {
-		fmt.Fprintln(w, "Error reading config file: ", err)
-		return
-	}
-
-	fmt.Fprintln(w, "Config file content: ", string(buf[:n]))
-
-	certFile, err := os.Open("cert.pem")
-	if err != nil {
-		fmt.Fprintln(w, "Error reading cert file: ", err)
-		return
-	}
-	defer certFile.Close()
-
-	buf = make([]byte, 1024)
-	n, err = certFile.Read(buf)
-	if err != nil {
-		fmt.Fprintln(w, "Error reading cert file: ", err)
-		return
-	}
-
-	fmt.Fprintln(w, "Cert file content: ", string(buf[:n]))
-
-	// Redis Sample
-	isRedisEnabled := os.Getenv("REDIS_ENABLED")
-	if isRedisEnabled == "true" {
-		// Connect to Redis
-		fmt.Fprintln(w, "\n\nRedis is enabled. Connecting to Redis...")
-		redisHost := os.Getenv("REDIS_HOST")
-		redisPort := os.Getenv("REDIS_PORT")
-		fmt.Fprintf(w, "Redis Host: %s\n", redisHost)
-		fmt.Fprintf(w, "Redis Port: %s\n", redisPort)
-
-		// Read from files
-		redisConfigFile, err := os.Open("etc/redis/redis.conf")
-		if err != nil {
-			fmt.Fprintln(w, "Error reading redis config file: ", err)
-			return
-		}
-
-		defer redisConfigFile.Close()
-
-		buf = make([]byte, 1024)
-		content, err := redisConfigFile.Read(buf)
-		if err != nil {
-			fmt.Fprintln(w, "Error reading redis config file: ", err)
-			return
-		}
-
-		fmt.Fprintln(w, "\nRedis Config file content:\n\n", string(buf[:content]))
-	}
-
 }
