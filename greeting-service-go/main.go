@@ -68,4 +68,7 @@ func greet(w http.ResponseWriter, r *http.Request) {
 		name = "Stranger"
 	}
 	fmt.Fprintf(w, "Hello, %s!\n", name)
+	// Print values from environment variables NORMAL_CONFIG & SECRET_CONFIG
+	fmt.Fprintf(w, "NORMAL_CONFIG: %s\n", os.Getenv("NORMAL_CONFIG"))
+	fmt.Fprintf(w, "SECRET_CONFIG: %s\n", os.Getenv("SECRET_CONFIG"))
 }
