@@ -69,6 +69,24 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, "Hello, %s!\n", name)
 	// Print values from environment variables NORMAL_CONFIG & SECRET_CONFIG
+	fmt.Fprintf(w, "Printing values from configuration group")
+	fmt.Fprintf(w, "Printing environment variables")
 	fmt.Fprintf(w, "NORMAL_CONFIG: %s\n", os.Getenv("NORMAL_CONFIG"))
 	fmt.Fprintf(w, "SECRET_CONFIG: %s\n", os.Getenv("SECRET_CONFIG"))
+
+	fmt.Fprintf(w, "Printing file mounts")
+	// Read config.json file in /workspace directory
+	config, err := os.ReadFile("/workspace/config.json")
+	if err != nil {
+		fmt.Fprintf(w, "Error reading config.json: %v", err)
+	} else {
+		fmt.Fprintf(w, "config.json: %s", string(config))
+	}
+
+	secretConfig, err := os.ReadFile("/workspace/sample.crt")
+	if err != nil {
+		fmt.Fprintf(w, "Error reading sample.crt: %v", err)
+	} else {
+		fmt.Fprintf(w, "sample.crt: %s", string(secretConfig))
+	}
 }
