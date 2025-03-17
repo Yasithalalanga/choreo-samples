@@ -73,6 +73,8 @@ func greet(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Printing environment variables")
 	fmt.Fprintf(w, "NORMAL_CONFIG: %s\n", os.Getenv("NORMAL_CONFIG"))
 	fmt.Fprintf(w, "SECRET_CONFIG: %s\n", os.Getenv("SECRET_CONFIG"))
+	fmt.Fprintf(w, "Hello World Service: %s\n", os.Getenv("CHOREO_HELLO_WORLD_SERVICE_SERVICEURL"))
+	fmt.Fprintf(w, "Hello World Service: %s\n", os.Getenv("CHOREO_HELLO_WORLD_SERVICE_CHOREOAPIKEY"))
 
 	fmt.Fprintf(w, "Printing file mounts")
 	// Read config.json file in /workspace directory
