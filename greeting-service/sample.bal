@@ -14,6 +14,8 @@ service / on new http:Listener(8090) {
         Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!"};
         io:println("Listing the company-email-recepient-list: ");
         io:println(companyEmailRecipientsMapping);
+        io:println("Listing the company-email-recepient-list keys: ");
+        io:println(companyEmailRecipientsMapping.keys());
         return greetingMessage;
     }
 }
