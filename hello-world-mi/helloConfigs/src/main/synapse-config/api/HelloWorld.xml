@@ -2,21 +2,33 @@
 <api context="/HelloWorld" name="HelloWorld" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="GET">
         <inSequence>
-            <log category="INFO" level="full">
-                <message>Printing the log files</message>
-                <property expression="wso2:vault-lookup('sample_secret')" name="vaultLookup"/>
-                <!-- <property expression="$SYSTEM:stockQuoteEP" name="envMount"/> -->
-            </log>
+            <variable name="databaseUsername" expression="${$SYSTEM:DATABASE_USERNAME}" type="STRING"/>
+            <variable name="databasePassword" expression="${wso2-vault('databasepassword')}" type="STRING"/>
             <payloadFactory media-type="json">
-                <format>{"Hello":"$1"}</format>
-                <args>
-                    <arg expression="$SYSTEM:stockQuoteEP"/>
-                </args>
+                 <format>
+                    {
+                        "databaseUsername": "${vars.databaseUsername}",
+                        "databasePassword": "${vars.databasePassword}"
+                    }
+                </format>
             </payloadFactory>
             <respond/>
         </inSequence>
         <outSequence/>
-        <faultSequence/>
+         <faultSequence>
+            <log category="ERROR">
+                <message>Error occurred while retrieving database credentials</message>
+            </log>
+            <payloadFactory media-type="json">
+                <format>
+                    {
+                        "error": true,
+                        "message": "Error occurred while retrieving database credentials"
+                    }
+                </format>
+            </payloadFactory>
+            <respond/>
+        </faultSequence>
     </resource>
 </api>
 
