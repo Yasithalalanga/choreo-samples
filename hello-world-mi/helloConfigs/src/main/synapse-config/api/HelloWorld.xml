@@ -5,7 +5,7 @@
             <log category="INFO" level="full">
                 <message>Printing the log files</message>
                 <property expression="wso2:vault-lookup('sample_secret')" name="vaultLookup"/>
-                <property expression="${SYSTEM:stockQuoteEP}" name="envMount"/>
+                <property expression="$SYSTEM:stockQuoteEP" name="envMount"/>
             </log>
             <payloadFactory media-type="json">
                 <format>{"Hello":"World"}</format>
