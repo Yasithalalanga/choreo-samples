@@ -2,9 +2,9 @@ import ballerina/http;
 
 // configurable boolean isAdmin = ?;
 // configurable byte age = ?;
-// configurable int port = ?;
+configurable int port = ?;
 
-// configurable float height = ?;
+configurable float height = ?;
 // configurable decimal salary = ?;
 
 // configurable string name = ?;
@@ -50,8 +50,8 @@ service / on new http:Listener(8090) {
 
         // // Append the configurable values with keys
         // greetingMessage = greetingMessage + " Age: " + age.toBalString();
-        // greetingMessage = greetingMessage + " Port: " + port.toBalString();
-        // greetingMessage = greetingMessage + " Height: " + height.toBalString();
+        greetingMessage = greetingMessage + " Port: " + port.toBalString();
+        greetingMessage = greetingMessage + " Height: " + height.toBalString();
         // greetingMessage = greetingMessage + " Salary: " + salary.toBalString();
 
         // greetingMessage = greetingMessage + " Name: " + name;
