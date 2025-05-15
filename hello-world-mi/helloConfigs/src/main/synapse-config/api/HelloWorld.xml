@@ -2,12 +2,10 @@
 <api context="/HelloWorld" name="HelloWorld" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="GET">
         <inSequence>
-            <variable name="databaseUsername" expression="${configs.databaseUsername}" type="STRING"/>
             <variable name="databasePassword" expression="${wso2-vault('databasePassword')}" type="STRING"/>
             <payloadFactory media-type="json">
                  <format>
                     {
-                        "databaseUsername": "${vars.databaseUsername}",
                         "databasePassword": "${vars.databasePassword}"
                     }
                 </format>
