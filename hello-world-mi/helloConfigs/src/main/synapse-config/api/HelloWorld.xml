@@ -15,23 +15,6 @@
             <respond/>
         </inSequence>
         <outSequence/>
-         <faultSequence>
-            <log category="ERROR">
-                <message>Error occurred while retrieving database credentials</message>
-            </log>
-            <payloadFactory media-type="json">
-                <format>
-                    {
-                        "error": true,
-                        "message": "Error occurred while retrieving database credentials"
-                    }
-                </format>
-            </payloadFactory>
-            <respond/>
-        </faultSequence>
+        <faultSequence/>
     </resource>
 </api>
-
-<!-- <log level="custom">
-  <property expression="wso2:vault-lookup('synapse_secret')" name="secret"/>
-</log> -->
